@@ -1,0 +1,47 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Quotes Generator</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content-wrapper">
+        <div class="copy-icon">
+          <i class="fa-regular fa-copy copy-btn"></i>
+          <span></span>
+        </div>
+        <div class="save-btn">
+          <i class="fa-solid fa-download"></i>
+        </div>
+        <div id="quotes-box">
+          <div class="triangle"></div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam
+            dolorem, quasi maiores, voluptatum eveniet ipsam animi deleniti ex
+            magni, iste nesciunt nostrum officiis repudiandae vitae officia at
+            dolorum in? Non!
+          </p>
+        </div>
+        <div id="author">
+          <p>Akanji Anthony</p>
+        </div>
+      </div>
+      <div class="button-container">
+        <button class="auto-quote">
+          <i class="fa-solid fa-wand-sparkles"></i> auto
+        </button>
+        <button class="stop-auto"><i class="fa-solid fa-ban"></i> stop</button>
+        <button class="btn">Generate Quote</button>
+      </div>
+      <!-- <button class="btn-reset">Reset Quote</button> -->
+    </div>
+    <script src="quoteApi.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
