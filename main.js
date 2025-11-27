@@ -9,11 +9,13 @@ const triangleEl = document.querySelector(".triangle");
 const autoMode = document.querySelector(".auto-quote");
 const stopAuto = document.querySelector(".stop-auto");
 const saveBtn = document.querySelector(".save-btn");
+const resetBtn = document.querySelector(".reset");
 // let prevQuotes = [];
 
 // option three
 
 let availableQuotes = [...quotes];
+let availableColors = [...colors];
 let timerId;
 let saveQuotes = [];
 let randomQuote;
@@ -23,7 +25,7 @@ function getStoredQuotes() {
 
   let storedQuote = JSON.parse(localStorage.getItem("favs")) || [];
 
-  const randomIndex = Math.floor(Math.random() * storedQuote.length);
+  const randomIndex = generateRandomNumber(storedQuote.length);
 
   if (storedQuote.length > 0) {
     quoteEl.textContent = storedQuote[randomIndex].quote;
@@ -36,19 +38,21 @@ getStoredQuotes();
 function generateQuote() {
   if (availableQuotes.length === 0) {
     alert("All quotes have been displayed!");
+    resetBtn.disabled = false;
     return;
   }
 
-  const randomIndex = Math.floor(Math.random() * availableQuotes.length);
-  const randomColorIndex = Math.floor(Math.random() * colors.length);
+  const randomIndex = generateRandomNumber(availableQuotes.length);
+  const randomColorIndex = generateRandomNumber(availableColors.length);
   randomQuote = availableQuotes.splice(randomIndex, 1)[0]; // remove
-  const randomColor = colors[randomColorIndex];
+  const randomColor = availableColors[randomColorIndex];
 
   quoteEl.textContent = randomQuote.quote;
   authorEl.textContent = randomQuote.author;
 
   containerEl.style.backgroundColor = randomColor;
   triangleEl.style.backgroundColor = randomColor;
+  resetBtn.disabled = true;
 }
 
 function copyQuote() {
@@ -76,6 +80,10 @@ function autoQuoteGeneration() {
   quoteBtn.classList.add("disable");
 }
 
+function generateRandomNumber(length) {
+  return Math.floor(Math.random() * length);
+}
+
 // saveBtn.addEventListener("click", () => {
 //   saveQuotes.push(randomQuote);
 //   localStorage.setItem("favs", JSON.stringify(saveQuotes));
@@ -89,7 +97,6 @@ saveBtn.addEventListener("click", () => {
     alert("Already saved!");
   }
 });
-
 
 autoMode.addEventListener("click", autoQuoteGeneration);
 
@@ -107,3 +114,7 @@ stopAuto.addEventListener("click", () => {
 
 copyBtn.addEventListener("click", copyQuote);
 quoteBtn.addEventListener("click", generateQuote);
+
+document.querySelector(".reset").addEventListener("click", () => {
+  availableQuotes = [...quotes];
+});
