@@ -9,7 +9,7 @@ const triangleEl = document.querySelector(".triangle");
 const autoMode = document.querySelector(".auto-quote");
 const stopAuto = document.querySelector(".stop-auto");
 const saveBtn = document.querySelector(".save-btn");
-let prevQuotes = [];
+// let prevQuotes = [];
 
 // option three
 
@@ -21,7 +21,7 @@ let randomQuote;
 function getStoredQuotes() {
   if (!localStorage.getItem("favs")) return;
 
-  const storedQuote = JSON.parse(localStorage.getItem("favs"));
+  let storedQuote = JSON.parse(localStorage.getItem("favs")) || [];
 
   const randomIndex = Math.floor(Math.random() * storedQuote.length);
 
@@ -48,17 +48,14 @@ function generateQuote() {
   authorEl.textContent = randomQuote.author;
 
   containerEl.style.backgroundColor = randomColor;
-
-  containerEl.style.backgroundColor = randomColor;
   triangleEl.style.backgroundColor = randomColor;
-
-  copyEl.textContent = "";
 }
 
 function copyQuote() {
   navigator.clipboard.writeText(quoteEl.textContent);
 
   copyEl.textContent = "copied";
+  setTimeout(() => (copyEl.textContent = ""), 2000);
 }
 
 function autoQuoteGeneration() {
@@ -70,25 +67,38 @@ function autoQuoteGeneration() {
     }
 
     generateQuote();
-  }, 2000);
+    autoMode.disabled = true;
+    stopAuto.disabled = false;
+  }, 8000);
 
   autoMode.style.backgroundColor = "#ff06e2";
   stopAuto.style.backgroundColor = "#fd46e8";
   quoteBtn.classList.add("disable");
 }
 
+// saveBtn.addEventListener("click", () => {
+//   saveQuotes.push(randomQuote);
+//   localStorage.setItem("favs", JSON.stringify(saveQuotes));
+// });
+
 saveBtn.addEventListener("click", () => {
-  saveQuotes.push(randomQuote);
-  localStorage.setItem("favs", JSON.stringify(saveQuotes));
+  if (!saveQuotes.some((q) => q.quote === randomQuote.quote)) {
+    saveQuotes.push(randomQuote);
+    localStorage.setItem("favs", JSON.stringify(saveQuotes));
+  } else {
+    alert("Already saved!");
+  }
 });
 
-localStorage.setItem("myName", "Akanji Anthony");
 
 autoMode.addEventListener("click", autoQuoteGeneration);
 
 stopAuto.addEventListener("click", () => {
   clearInterval(timerId);
   quoteBtn.classList.remove("disable");
+
+  autoMode.disabled = false;
+  stopAuto.disabled = true;
 
   stopAuto.style.backgroundColor = "#ff06e2";
   autoMode.style.backgroundColor = "#fd46e8";
